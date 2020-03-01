@@ -1,6 +1,3 @@
-//FOLHA 2 - p2b.c
-//LEITURA DE PASSWORD, SEM ECOAR CARACTER LIDO
-
 #include <termios.h>
 #include <unistd.h>
 #include <string.h>
