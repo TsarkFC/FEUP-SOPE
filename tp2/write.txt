@@ -1,1 +1,3 @@
-Text from tp2 exercise 2 to be copied!
+Joao Diogo: 12
+Martins: 13
+Romao: 15

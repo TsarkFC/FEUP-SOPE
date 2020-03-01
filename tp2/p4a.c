@@ -6,31 +6,32 @@
 #include <string.h>
 #include <ctype.h>
 
-#define ENTER_ASCII 10
+#define KEY 27
+#define ENTER_KEY 10
 
 int main(int argc, char **argv){
     char ch;
     int enter_press = 0; //odd to names, even to numbers
-    char array[50];
-    int i = 0;
 
-    int file = open(argv[1], O_WRONLY | O_CREAT | O_EXCL, 0644);
+    int file = open(argv[1], O_WRONLY);
 
-    while (read(STDIN_FILENO, &ch, 1) && ch != '\n') {
-        if (ch != 10){
-            array[i] = ch;
-            i++;
-        }
-        else{
-            enter_press++;
-            if (enter_press % 2 == 0 && (!isdigit(array[0]) || !isdigit(array[1]))){
+    while (read(STDIN_FILENO, &ch, 1) && ch != KEY) {
+        if (ch != ENTER_KEY){
+            if (enter_press % 2 == 1 && (!isdigit(ch))){
                 printf("ERRNO: %d\n", errno);
                 printf("Grade has to have numerical value! \n");
                 exit(1);
             }
-            write(file, array, sizeof(array));
-            memset(array, 50, sizeof(char));
+
+            write(file, &ch, 1);
+        }
+        else{
+            enter_press++;
+            if (enter_press % 2 != 0) write(file, ": ", 2);
+            else write(file, "\n", 1);
         }
         
     }
+
+    close(file);
 }
