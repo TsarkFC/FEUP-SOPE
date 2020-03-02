@@ -4,40 +4,52 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <string.h>
 
 int main(int argc, char *argv[])
 {
- DIR *dirp;
- struct dirent *direntp;
- struct stat stat_buf;
- char *str;
+    DIR *dirp;
+    struct dirent *direntp;
+    struct stat stat_buf;
+    char *str;
 
- if (argc != 2)
- {
-  fprintf( stderr, "Usage: %s dir_name\n", argv[0]);
-  exit(1);
- }
+    if (argc != 2)
+    {
+        fprintf( stderr, "Usage: %s dir_name\n", argv[0]);
+        exit(1);
+    }
 
- if ((dirp = opendir( argv[1])) == NULL)
- {
-  perror(argv[1]);
-  exit(2);
- }
+    if ((dirp = opendir( argv[1])) == NULL)
+    {
+        perror(argv[1]);
+        exit(2);
+    }
 
- while ((direntp = readdir( dirp)) != NULL)
- {
-  if (lstat(direntp->d_name, &stat_buf)==-1)   // testar com stat()
-  {
-   perror("lstat ERROR");
-   exit(3);
-  }
-  if (S_ISREG(stat_buf.st_mode)) str = "regular";
-  else if (S_ISDIR(stat_buf.st_mode)) str = "directory";
-  else str = "other";
-  printf("%-25s - %s\n", direntp->d_name, str);
- }
+    while ((direntp = readdir( dirp)) != NULL){
+        if (lstat(direntp->d_name, &stat_buf)==-1)   // testar com stat()
+        {
+            perror("lstat ERROR");
+            exit(3);
+        }
+        if (S_ISREG(stat_buf.st_mode)) {
+            long num = stat_buf.st_size;
+            str = "regular";
 
- closedir(dirp);
- exit(0);
+            printf("%-25s - %s  size: %ld\n", direntp->d_name, str, num);
+        }
+        
+        else if (S_ISDIR(stat_buf.st_mode)) {
+            str = "directory";
+            printf("%-25s - %s\n", direntp->d_name, str);
+        }
+        else {
+            str = "other";
+            printf("%-25s - %s\n", direntp->d_name, str);
+        }
+        
+    }
+
+    closedir(dirp);
+    exit(0);
 }
 
