@@ -15,6 +15,10 @@ int main(int argc, char **argv){
 
     int file = open(argv[1], O_WRONLY);
 
+    char *init = "Write name of the student and grade intercalated with ENTER key press!\n\n";
+
+    write(STDOUT_FILENO, init, strlen(init));
+
     while (read(STDIN_FILENO, &ch, 1) && ch != KEY) {
         if (ch != ENTER_KEY){
             if (enter_press % 2 == 1 && (!isdigit(ch))){
