@@ -6,7 +6,7 @@ int main(void) {
     //write(STDOUT_FILENO,"1",1);
     printf("1\n");
 
-    if(fork() > 0) {
+    if(fork() < 0) {
         //write(STDOUT_FILENO,"2",1);
         //write(STDOUT_FILENO,"3",1);
         printf("2");
