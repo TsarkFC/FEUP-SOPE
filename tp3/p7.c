@@ -9,6 +9,7 @@ int main(int argc, char *argv[]){
     sprintf(prog,"%s.c",argv[1]);
     printf("Program %s has been compiled\n", argv[1]);
     execlp("gcc","gcc",prog,"-Wall","-o",argv[1],NULL); // Compiles code from argv[1].c
+    printf("Comand not executed!");
 
     /***EXTRA -> executes code from argv[1].c
     char p[20] = "./";
