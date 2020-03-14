@@ -29,7 +29,8 @@ int main(void)
         
         else{ // simulando o trabalho do pai
             for (j=1; j<=10; j++) {
-                wait(&status);
+                //wait(&status); -> with this implementation father only starts working after all sons have finished
+                waitpid(-1, &status, WNOHANG);
                 sleep(1);
                 printf("father working ...\n");
             }
