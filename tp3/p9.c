@@ -20,7 +20,16 @@ int main(int argc, char *argv[], char *envp[])
 
     if (pid > 0) {
         pid_child = wait(&status);
-        printf("\nPARENT: son %d terminated with exit code %d\n", pid_child, WEXITSTATUS(status));
+
+        int end = WIFEXITED(status);
+        if (end) printf("Child terminated normally!\n");
+        else printf("Child did not terminate normally!\n");
+
+        int signal = WIFSIGNALED(status);
+        if (signal) printf("Child was terminated by a signal!\n");
+        else printf("Child was not terminated by a signal!\n");
+
+        printf("PARENT: son %d terminated with exit code %d\n", pid_child, WEXITSTATUS(status));
         printf("My child executed command \"ls -laR %s\"\n", argv[1]);
     }
     else if (pid == 0){
