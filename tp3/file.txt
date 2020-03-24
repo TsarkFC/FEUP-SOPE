@@ -1,0 +1,17 @@
+.:
+total 68
+drwxr-xr-x 2 joao joao 4096 mar 24 23:06 .
+drwxr-xr-x 9 joao joao 4096 mar 24 14:12 ..
+-rw-r--r-- 1 joao joao    1 mar 24 23:04 file.txt
+-rwxr-xr-x 1 joao joao 8552 mar 24 23:06 p10
+-rw-rw-r-- 1 joao joao  810 mar 15 21:04 p10.c
+-rw-rw-r-- 1 joao joao  565 mar 10 14:21 p1.c
+-rw-rw-r-- 1 joao joao  478 mar 10 15:15 p2.c
+-rw-rw-r-- 1 joao joao  638 mar 10 14:38 p3.c
+-rw-rw-r-- 1 joao joao  280 mar 10 14:51 p4a.c
+-rw-rw-r-- 1 joao joao  315 mar 10 14:54 p4b.c
+-rw-rw-r-- 1 joao joao  407 mar 10 15:02 p5.c
+-rw-rw-r-- 1 joao joao 1122 mar 14 19:59 p6.c
+-rw-rw-r-- 1 joao joao  503 mar 14 22:30 p7.c
+-rw-rw-r-- 1 joao joao 1773 mar 14 23:27 p8.c
+-rw-rw-r-- 1 joao joao 2289 mar 15 20:14 p9.c

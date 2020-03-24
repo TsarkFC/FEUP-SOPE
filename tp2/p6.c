@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
+#include <linux/limits.h>
 
 int main(int argc, char *argv[])
 {
@@ -19,14 +20,16 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if ((dirp = opendir( argv[1])) == NULL)
+    if ((dirp = opendir(argv[1])) == NULL)
     {
         perror(argv[1]);
         exit(2);
     }
 
-    while ((direntp = readdir( dirp)) != NULL){
-        if (lstat(direntp->d_name, &stat_buf)==-1)   // testar com stat()
+    while ((direntp = readdir(dirp)) != NULL){
+        char fp[PATH_MAX];
+        snprintf(fp, sizeof(fp), "%s/%s", argv[1], direntp->d_name);
+        if (lstat(fp, &stat_buf)==-1)
         {
             perror("lstat ERROR");
             exit(3);
