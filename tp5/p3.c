@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <string.h>
 
 #define READ 0
 #define WRITE 1
+#define MAXLINE 42
 
 int main(int argc, char* argv[]){
 
@@ -19,32 +21,27 @@ int main(int argc, char* argv[]){
     pipe(fd);
 
     pid_t pid;
+    int status, n;
 
-    int fileno = open(argv[1], O_RDONLY);
+    char content[MAXLINE];
 
-    char content[20];
-    close(fd[WRITE]);
-    while (read(fileno, content, 20)){
-        write(fd[WRITE], content, 20);
-        close(fd[WRITE]);
-    }
+    int fileno = open(argv[1], O_RDWR);
 
     pid = fork();
     if (pid == 0){
-        dup2(fileno, STDOUT_FILENO);
-        //dup2(fd[WRITE], STDOUT_FILENO);
+        close(fd[READ]);
+        dup2(fd[WRITE], STDOUT_FILENO);
         execlp("sort", "sort", argv[1], NULL);
     }
     else if (pid > 0){
-        printf("GOT PARENT\n");
+        waitpid(-1, &status, WUNTRACED);
         close(fd[WRITE]);
-        write(STDOUT_FILENO, "TESTING...\n", strlen("TESTING...\n"));
-        while (read(fd[READ], content, 20)){
-            write(STDOUT_FILENO, content, 20);
-            printf("GOT HERE\n");
+        while (n = read(fd[READ], content, MAXLINE)){
+            write(STDOUT_FILENO, content, MAXLINE);
         }
-    } 
+    }
 
+    close(fileno); 
 
     return 0;
 }
