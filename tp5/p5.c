@@ -28,7 +28,6 @@ int string_slasher(char* args, char** final){
     while (buffer != NULL){
         final[i] = malloc(sizeof(buffer));
         strcpy(final[i], buffer);
-        printf("Commands: %s\n", final[i]);
         i++;
         buffer = strtok(NULL, "|");
     }
@@ -96,12 +95,22 @@ int main(int argc, char* argv[]){
     pid_t pid3 = fork();
 
     if (pid3 == 0){
-        close(fd2[WRITE]);
-        close(fd1[WRITE]);
-        close(fd1[READ]);
-        dup2(fd2[READ], STDIN_FILENO);
-        cmd_builder(str[size], cmd);
-        execvp(cmd[0], cmd);
+        if (size%2 != 0){
+            cmd_builder(str[size-1], cmd);
+            close(fd2[WRITE]);
+            close(fd1[WRITE]);
+            close(fd1[READ]);
+            dup2(fd2[READ], STDIN_FILENO);
+            execvp(cmd[0], cmd);
+        }
+        else{
+            cmd_builder(str[size-1], cmd);
+            close(fd1[WRITE]);
+            close(fd2[WRITE]);
+            close(fd2[READ]);
+            dup2(fd1[READ], STDIN_FILENO);
+            execvp(cmd[0], cmd);
+        }
     } 
 
     wait(&status);
