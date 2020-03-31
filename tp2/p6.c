@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     struct dirent *direntp;
     struct stat stat_buf;
     char *str;
+    char directoryname[150] = { '\0' };
 
     if (argc != 2)
     {
@@ -42,8 +43,22 @@ int main(int argc, char *argv[])
         }
         
         else if (S_ISDIR(stat_buf.st_mode)) {
-            str = "directory";
-            printf("%-25s - %s\n", direntp->d_name, str);
+            strcpy(directoryname, direntp->d_name);
+            if(directoryname[1] != '\0'){
+                if(directoryname[2] != '\0'){
+
+                    str = "directory";
+                    printf("%-25s - %s\n", direntp->d_name, str);
+                }
+            }
+            else if(directoryname[0] != '.' || directoryname[1] != '\0'){
+                if(directoryname[1] != '.' || directoryname[2] != '\0'){
+                    str = "directory";
+                    printf("%-25s - %s\n", direntp->d_name, str);
+                }
+            }
+            memset(directoryname, 0, sizeof(directoryname));
+            //directoryname[0] = '\0';
         }
         else {
             str = "other";
@@ -51,8 +66,8 @@ int main(int argc, char *argv[])
         }
         
     }
-
     closedir(dirp);
+    
     exit(0);
 }
 
