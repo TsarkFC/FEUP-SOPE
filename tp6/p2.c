@@ -34,5 +34,8 @@ int main(){
 
     printf("\nResult 1: %d\n", *res1);
     printf("Result 2: %d\n", *res2);
+
+    free(res1);
+    free(res2);
     return 0;
 }
