@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   }
 
   //OPEN SOURCE FILE
-  fd1 = open(argv[1], O_WRONLY | O_CREAT | O_EXCL, 0644);
+  fd1 = open(argv[1], O_WRONLY | O_APPEND | O_CREAT);
   if (fd1 == -1) {
     perror(argv[1]);
     return 2;
