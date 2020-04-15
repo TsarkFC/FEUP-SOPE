@@ -20,22 +20,33 @@ int main(void){
         if (ans==-1) sleep(1);
     } while (ans==-1);
 
-
+    do{
         char* no1 = malloc(100);
         char* no2 = malloc(100);
+        char* send = malloc(200);
         write(STDOUT_FILENO, "NUMBER1: ", strlen("NUMBER1: "));
         read(STDOUT_FILENO,no1,100);
         write(STDOUT_FILENO, "NUMBER2: ", strlen("NUMBER2: "));
         read(STDOUT_FILENO,no2,100);
 
-        write(req, no1, strlen(no1));
-        write(req, no2, strlen(no2));
+        sprintf(send, "%s %s", no1, no2);
+        n1 = atof(no1);free(no1);
+        n2 = atof(no2);free(no2);
+
+        if (n1 == 0 && n2 == 0){
+            free(send);
+            break;
+        }
+
+        write(req, send, strlen(send));
+        free(send);
 
         char* res = malloc(100);
         read(ans, res, 100);
         printf("%s", res);
+        free(res);
         
-        free(res);free(no1);free(no2);
+    }while(1);
 
     exit(0);
 }

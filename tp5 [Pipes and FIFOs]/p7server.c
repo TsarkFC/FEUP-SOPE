@@ -21,19 +21,20 @@ int main(void){
     printf("Server openned FIFO's\n");
 
     float n1, n2;
+    do{
+        char* rec = malloc(200);
+        read(req, rec, 200);
+        sscanf(rec, "%f %f", &n1, &n2);
+        free(rec);
 
-    char* no1 = malloc(100);
-    char* no2 = malloc(100);
-    read(req, no1, 100);
-    read(req, no2, 100);
-    n1 = atof(no1); 
-    n2 = atof(no2);
-    free(no1); free(no2); 
+        if (n1 == 0 && n2 == 0) break;
 
-    char* res = malloc(256);
-    sprintf(res, "%f x %f = %f\n%f / %f = %f\n%f + %f = %f\n", n1, n2, n1*n2, n1, n2, n1/n2, n1, n2, n1+n2);
-    write(ans, res, strlen(res));
-    free(res); 
+        char* res = malloc(256);
+        sprintf(res, "%f x %f = %f\n%f / %f = %f\n%f + %f = %f\n", n1, n2, n1*n2, n1, n2, n1/n2, n1, n2, n1+n2);
+        write(ans, res, strlen(res));
+        free(res); 
+ 
+    } while(1);
 
     close(req);
     close(ans);
