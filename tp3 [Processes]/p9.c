@@ -1,4 +1,4 @@
-// PROGRAMA p8.c
+// PROGRAMA p9.c
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
