@@ -236,12 +236,12 @@ int main(void){
  - d) Não seria conveniente substituir o semáforo por um mutex, pois o efeito do mutex poder-se-ia comparar a um semáforo inicializado a 1, o que permitiria que, inicialmente, a função process pudesse ser executada antes de fill.
 
  - e) 
-    - **tf < tp**:
+    - **tf > tp**:
         
         - thread com fill(): 10*tf
         - thread com process(): tf + 9*(tf-tp) + 10*tp
 
-    - **tf > tp**:
+    - **tf < tp**:
         
         - thread com fill(): 10*tf
         - thread com process(): tf + 10*tp
