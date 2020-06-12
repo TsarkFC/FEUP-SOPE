@@ -20,7 +20,7 @@
 
  - c)
   
-   - Técnicas de escalonamento podem retirar o processador a um processo, garantindo que este não gasta os seus recursos desnecessariamente.
+   - Cada processo tem um tempo limite associado. Uma vez chegado esse tempo limite ser-lhe-á retirado o processador.
 
 ## 2
 
