@@ -16,6 +16,18 @@ int C = 0;
 //b) / c)
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+void* t2(void* arg){
+    //d)
+    pthread_mutex_lock(&mutex);
+
+    while(!C)
+        pthread_cond_wait(&cond, &mutex);
+
+    //B
+
+    pthread_mutex_unlock(&mutex);
+
+}
 
 void* t1(void* arg){
     //a)
@@ -29,19 +41,6 @@ void* t1(void* arg){
     //change conditional A
     pthread_cond_signal(&cond); //e) -> pthread_cond_broadcast(&cond);
     pthread_mutex_unlock(&mutex);
-}
-
-void* t2(void* arg){
-    //d)
-    pthread_mutex_lock(&mutex);
-
-    while(!C)
-        pthread_cond_wait(&cond, &mutex);
-
-    //B
-
-    pthread_mutex_unlock(&mutex);
-
 }
 
 int main(void){

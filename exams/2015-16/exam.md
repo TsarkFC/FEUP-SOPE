@@ -158,6 +158,19 @@ int C = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
+void* t2(void* arg){
+    //d)
+    pthread_mutex_lock(&mutex);
+
+    while(!C)
+        pthread_cond_wait(&cond, &mutex);
+
+    //B
+
+    pthread_mutex_unlock(&mutex);
+
+}
+
 void* t1(void* arg){
     //a)
     pthread_t tid;
@@ -171,23 +184,21 @@ void* t1(void* arg){
     pthread_cond_signal(&cond); //e) -> pthread_cond_broadcast(&cond);
     pthread_mutex_unlock(&mutex);
 }
-
-void* t2(void* arg){
-    //d)
-    pthread_mutex_lock(&mutex);
-
-    while(!C)
-        pthread_cond_wait(&cond, &mutex);
-
-    //B
-
-    pthread_mutex_unlock(&mutex);
-
-}
 ```
 
 - f)
     - Dois processos distintos não partilhariam as variáveis globais que as threads partilham, sendo assim necessário recorrer a outros mecanismos como regiões de memória partilhadas ou pipes para a comunicação entre processos seja possível.
 
     - O mutex e a variável de condição necessitariam assim de ser inicializados dinamicamente recorrendo a **pthread_mutex_init** e **pthread_cond_init** incluindo **PTHREAD_PROCESS_SHARED**.
+
+    - Exemplo:
+     ```c
+        pthread_mutexattr_t mutex;
+        pthread_mutex_attr_init(&mutex);
+        pthread_mutexattr_setpshared(&mutex,PTHREAD_PROCESS_SHARED);
+
+        pthread_condattr_t cond;
+        pthread_condattr_init(&cond);
+        pthread_condattr_setpshared(&cond, PTHREAD_PROCESS_SHARED);
+        ```
 
