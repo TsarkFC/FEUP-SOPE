@@ -79,6 +79,7 @@ int main(){
     - C e E, possuem o mesmo i-node.
 
 ## 2
+- **Thread creation**
 
 ```c
 //a)
@@ -148,7 +149,7 @@ int teardownLB(){
 
 ## 3
 
-- a) - e)
+- a) - e) **Conditional variable & mutex**
 
 ```c
 info_t get_info();
