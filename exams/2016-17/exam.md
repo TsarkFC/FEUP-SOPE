@@ -282,6 +282,7 @@ if (unlink("fifo1") < 0){
 
 sem_t sem;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int numPhoneCalls = 0;
 
 void* receiver(void* arg){
     // MAX_NUM_PHONE_CALLS: constante global que indica o no máx. total de chamadas
