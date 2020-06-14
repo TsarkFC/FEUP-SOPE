@@ -387,7 +387,7 @@ void *bird(void *arg) {
 }
 ```
 
-Em baby() colocar sem_wait(&consume) no início de else e sem_post(&produce) na condição if.
+Em baby() colocar sem_wait(&consume) na linha que sucede while() e sem_post(&produce) na condição if.
 
 - d) **Thread return values**
 
