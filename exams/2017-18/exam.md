@@ -48,13 +48,13 @@ int main(void){
     - não preempção dos recursos;
     - espera circular.
     
-## 3
+## 3 
 
 Algoritmos de **escalonamento do processador** tendem a penalizar os processo **CPU-bound**. São processos que passam a maior parte do seu tempo de execução a usar CPU, podendo ter CPU bursts muito longos.
 
 ## 4
 
-- a) 
+- a) **Overlay**
     - Para **executar mais processos que ocupam mais memória do que a memória disponível** é necessário recorrer à técnica de **overlay**.
     - É uma técnica de sobreposição que permite carregar partes difrentes de um programa na mesma memória (em alturas diferentes).
     - Partes do programa, identificadas pelo programador, são compiladas e linkadas de modo a poderem correr nos endereços da secção de overlay.
@@ -75,6 +75,9 @@ Cada ficheiro tem um **inode** associado. O inode contém informação sobre o f
 - localização dos blocos de informação (ficheiros regulares e diretórios) 
 
 ## 6
+- **Percorrer diretório**
+- **Fork()**
+- **execl()**
 
 ```c
 #include <stdio.h>
@@ -142,7 +145,7 @@ int process_dir(char *dirname)   {
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
             // cria um processo que invoca process_dir()
-            if (fork() < 0){
+            if (fork() == 0){
                 process_dir(path);
                 exit(0);
             }
@@ -153,7 +156,7 @@ int process_dir(char *dirname)   {
         else if (S_ISREG(stat_buf.st_mode)) { // se 'entry' for um ficheiro regular
             if (strstr(entry->d_name, filename) != NULL) { // se o nome do ficheiro contiver filename
                 // cria um processo que invoca o utilitário 'cp'
-                if (fork() < 0){
+                if (fork() == 0){
                     execlp("cp", "cp", filename, destination_dlr, NULL);
                 }
                 else wait(&status);
@@ -167,7 +170,7 @@ int process_dir(char *dirname)   {
 
 ## 7
 
-- a)
+- a) **Requests and Answer with PIPES**
 ```mermaid
 graph LR
     myprog --> pipe;
@@ -219,7 +222,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-- b)
+- b) **Requests ans Answer with FIFOS**
 ```mermaid
 graph LR
     myprogF1 --> requests;
@@ -309,7 +312,7 @@ int main(int argc, char *argv[]){
 
 ## 8
 
-- a) 
+- a) **Criação de threads**
 ```c
 // global:
 #define NB 10
@@ -359,7 +362,7 @@ void *baby(void *arg){
 }
 ```
 
-- c)
+- c) **Inicialização semáforo**
 
 ```c
 int finish = 0;
@@ -386,7 +389,7 @@ void *bird(void *arg) {
 
 Em baby() colocar sem_wait(&consume) no início de else e sem_post(&produce) na condição if.
 
-- d)
+- d) **Thread return values**
 
 ```c
 void *baby(void *arg){
