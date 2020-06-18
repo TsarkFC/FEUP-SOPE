@@ -95,6 +95,7 @@ Cada ficheiro tem um **inode** associado. O inode contém informação sobre o f
 
 char destination_dlr[50];
 char filename[50];
+char dirpath[50];
 int status;
 
 int main(int argc, char *argv[]){
@@ -120,7 +121,7 @@ int main(int argc, char *argv[]){
     }
 
     //4)
-    process_dir(argv[1]);
+    process_dir(dirpath);
 
     return 0;
 }
@@ -134,18 +135,18 @@ int process_dir(char *dirname)   {
     while ((entry = readdir(dir)) != NULL) {
         char path[1024];
         // ‐‐‐ BLOCO A ‐‐‐
-        sprintf(path, "%s/%s", dirname, direntp->d_name);
+        sprintf(path, "%s/%s", dirname, entry->d_name);
 
         if (lstat(path, &statbuf)==-1){
             perror("lstat ERROR");
             exit(3);
         }
             
-        if (S_ISDIR(stat_buf.st_mode)) {
+        if (S_ISDIR(statbuf.st_mode)) {
             if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
                 continue;
             // cria um processo que invoca process_dir()
-            if (fork() == 0){
+            if (fork() < 0){
                 process_dir(path);
                 exit(0);
             }
@@ -153,10 +154,10 @@ int process_dir(char *dirname)   {
         }  
         // ‐‐‐ FIM DO BLOCO A ‐‐‐
         // ‐‐‐ BLOCO B ‐‐‐
-        else if (S_ISREG(stat_buf.st_mode)) { // se 'entry' for um ficheiro regular
+        else if (S_ISREG(statbuf.st_mode)) { // se 'entry' for um ficheiro regular
             if (strstr(entry->d_name, filename) != NULL) { // se o nome do ficheiro contiver filename
                 // cria um processo que invoca o utilitário 'cp'
-                if (fork() == 0){
+                if (fork() < 0){
                     execlp("cp", "cp", filename, destination_dlr, NULL);
                 }
                 else wait(&status);
