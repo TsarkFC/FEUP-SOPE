@@ -259,15 +259,17 @@ int turn = 0; // The first thread to run must have thrIndex=turn=0
 void * thr(void *arg)
 {
     int thrIndex = *(int*)arg; // The effective indexes are 0,1,2,...
-    pthread_mutex_lock(&mutex);
-    while (turn != index){
-        pthread_cond_wait(&cond, &mutex);
-    }
+    while(1){
+        pthread_mutex_lock(&mutex);
+        while (turn != index){
+            pthread_cond_wait(&cond, &mutex);
+        }
 
-    printf("%d ", thrIndex + 1); // The numbers shown are 1,2,3,...
-    turn = (turn + 1) % numThreads;
-    pthread_cond_signal(&cond);
-    pthread_mutex_unlock(&mutex);
+        printf("%d ", thrIndex + 1); // The numbers shown are 1,2,3,...
+        turn = (turn + 1) % numThreads;
+        pthread_cond_signal(&conds[turn]); // Signals next
+        pthread_mutex_unlock(&mutex);
+    }
     return NULL;
 }
 int main()
@@ -275,6 +277,8 @@ int main()
     printf("Number of threads ? "); scanf("%d", &numThreads);
     int *arg = (int *) malloc(sizeof(int)*numThreads);
     pthread_t *tid = (pthread_t *) malloc(sizeof(pthread_t)*numThreads);
+    conds = calloc(numThreads, sizeof(pthread_cond_t));
+    pthread_cond_signal(&conds[turn]);
     for (int i = 0; i < numThreads; i++){
         arg[i] = i;
         pthread_create(&tid[i], NULL, thr, (void*)&arg[i]);
