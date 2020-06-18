@@ -47,7 +47,7 @@ int redirectStdin(char* filename){
         return -1;
     }
 
-    int dup_fd = dup2(STDIN_FILENO, fd);
+    int dup_fd = dup2(fd, STDIN_FILENO);
 
     if (dup_fd == -1){
         perror("Redirect stdin\n");
