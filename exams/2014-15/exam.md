@@ -64,7 +64,7 @@
 
     - Endereço lógico: 2000<sub>10</sub>
     - A1: Least Recently Used
-    - 2000 / 1024 = 1, pelo que o endereço lógico corresponderá à posição 1 (B0)
+    - 2000 / 1024 = 1, pelo que o endereço lógico corresponderá à posição 1 (B1)
     - Este processo ocupará assim a região de A1, na "posição 6" da memória física.
     - Offset: 2000 % 1024 = 976
     - Endereço físico: 6 * 1024 + Offset = 7120
