@@ -291,12 +291,12 @@ void* receiver(void* arg){
         int phoneNumber = receiveCall();
         pthread_mutex_lock(&mutex);
         numPhoneCalls++;
-        pthread_mutex_unlock(&mutex);
         if (numPhoneCalls % 1000 == 0) {
             // o concorrente cujo número de telefone é phoneNumber é um dos vencedores
             // informa o thread caller que deve fazer uma chamada para phoneNumber
             sem_post(&sem);
         }
+        pthread_mutex_unlock(&mutex);
     }
 }
 
