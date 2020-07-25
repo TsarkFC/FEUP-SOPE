@@ -9,7 +9,7 @@
 - V - **Preempção** utiliza o **timer** para controlar o tempo de execução de um processo.
 - F - **Race condition** acontece quando dois processos utilizam os mesmos dados praticamente simultaneamente.
 - V - **Diferentes processos** poderão ter o **mesmo endereço lógico** mapeado para **diferentes regiões de memória física**.
-- V (?) - **Princípio de localidade de referência** é a base técnica de gestão de memória virtual.
+- F - **Princípio de localidade de referência** é a base técnica de gestão de memória virtual.
 - F - **Multiprogramação**: execução intercalada de processos. **Multiprocessamento**: execução simultânea de vários processos.
 - F - **readdir()** retorna NULL após ler a última entrada de um diretório.
 - F - **execlp()** não cria um processo.
