@@ -1,0 +1,6 @@
+[submodule "project1"]
+	path = project1
+	url = https://github.com/TsarkFC/sope-simpledu
+[submodule "project2"]
+	path = project2
+	url = https://github.com/TsarkFC/sope-wc
